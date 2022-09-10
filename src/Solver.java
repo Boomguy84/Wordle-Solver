@@ -108,7 +108,8 @@ public class Solver {
             }
         } else if (colour.equalsIgnoreCase("yellow")) {
             while (iterator.hasNext()) {
-                if (!iterator.next().toString().contains(character + "")) {
+                String currentWord = iterator.next().toString();
+                if (!currentWord.contains(character + "") || currentWord.charAt(charPosition) == character) {
                     iterator.remove();
                 }
             }
