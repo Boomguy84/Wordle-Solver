@@ -39,11 +39,11 @@ public class Solver {
 
                 //if statements which call the wordRemover method to remove incorrect answers based on user input
                 if (positionValue.equalsIgnoreCase("green")) {
-                    wordRemover(wordList, guess.charAt(i), i, "green");
+                    wordRemover(wordList, guess.toLowerCase().charAt(i), i, "green");
                 } else if (positionValue.equalsIgnoreCase("yellow")) {
-                    wordRemover(wordList, guess.charAt(i), i, "yellow");
+                    wordRemover(wordList, guess.toLowerCase().charAt(i), i, "yellow");
                 } else {
-                    wordRemover(wordList, guess.charAt(i), i, "black");
+                    wordRemover(wordList, guess.toLowerCase().charAt(i), i, "black");
                 }
             }
 
