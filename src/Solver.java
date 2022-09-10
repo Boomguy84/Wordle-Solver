@@ -16,7 +16,7 @@ public class Solver {
         //populates the ArrayList
         populateList(wordList);
 
-        for (int j=0 ; j<7 ; j++) {
+        for (int j = 0; j < 6; j++) {
             //gets the user's guess and checks to see if it's valid and then stores it in a variable
             String guess = guessChecker();
 
@@ -33,18 +33,29 @@ public class Solver {
                     }
                 }
                 if (positionValue.equalsIgnoreCase("green")) {
-                    wordRemover(wordList, guess.charAt(i), i);
+                    wordRemover(wordList, guess.charAt(i), i, "green");
                 } else if (positionValue.equalsIgnoreCase("yellow")) {
-                    wordRemover(wordList, guess.charAt(i), -1);
+                    wordRemover(wordList, guess.charAt(i), i, "yellow");
                 } else {
-                    wordRemover(wordList, guess.charAt(i), -2);
+                    wordRemover(wordList, guess.charAt(i), i, "black");
                 }
 
             }
 
+            System.out.println("List of possible words: ");
             System.out.println(wordList);
 
+            if (wordList.size() == 1) {
+                break;
+            }
         }
+
+        if (wordList.size() == 1) {
+            System.out.printf("The word is: %s", wordList.get(0));
+        } else {
+            System.out.println("The word could not be determined");
+        }
+
     }
 
     //populates an ArrayList of all the possible answers
@@ -86,50 +97,28 @@ public class Solver {
     }
 
     //method that removes any word that is the word of the day
-    public static void wordRemover(ArrayList wordList, char character, int charPosition) {
+    public static void wordRemover(ArrayList wordList, char character, int charPosition, String colour) {
         Iterator iterator = wordList.iterator();
-        if (charPosition >= 0) {
+        if (charPosition >= 0 && colour.equalsIgnoreCase("green")) {
             while (iterator.hasNext()) {
                 if (iterator.next().toString().charAt(charPosition) != character) {
                     iterator.remove();
                 }
 
             }
-        }else if (charPosition == -1){
-            while (iterator.hasNext()){
-                if (!iterator.next().toString().contains(character+"")){
+        } else if (colour.equalsIgnoreCase("yellow")) {
+            while (iterator.hasNext()) {
+                if (!iterator.next().toString().contains(character + "")) {
                     iterator.remove();
                 }
             }
-        }else{
-            while (iterator.hasNext()){
-                if (iterator.next().toString().charAt(charPosition+2) == character){
+        } else {
+            while (iterator.hasNext()) {
+                if (iterator.next().toString().charAt(charPosition) == character) {
                     iterator.remove();
                 }
             }
         }
     }
-
-//    public static void wordPositionData(String guess) {
-//        Scanner input = new Scanner(System.in);
-//        boolean valid;
-//
-//        for (int i = 1; i < 6; i++) {
-//            valid = false;
-//            while (!valid) {
-//                System.out.printf("Was letter number %d black, yellow, or green: ", i);
-//                String inputString = input.next();
-//                if(inputString.equalsIgnoreCase("black") || inputString.equalsIgnoreCase("yellow") || inputString.equalsIgnoreCase("green")){
-//                    valid = true;
-//                }else{
-//                    System.out.println("Invalid input");
-//                }
-//            }
-//
-//        }
-//
-//    }
-
-
 }
 
