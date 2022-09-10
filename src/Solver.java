@@ -5,28 +5,21 @@ import java.util.Scanner;
 
 public class Solver {
     public static void main(String[] args) throws IOException {
-        //creates an ArrayList and a Scanner for user input
+        //creates an ArrayList for the answers
         ArrayList wordList = new ArrayList();
-        Scanner input = new Scanner(System.in);
 
         //populates the ArrayList
         populateList(wordList);
 
+        //gets the user's guess and checks to see if it's valid
+        System.out.println(guessChecker());
 
-        try {
-            System.out.print("Enter your first guess: ");
-        }catch (Exception exception){
-            System.out.println();
-        }
+
 
         for (int i=0 ; i<5 ; i++){
             String test = wordList.get(0).toString();
             System.out.println(test.charAt(i));
         }
-
-    }
-
-    public void wordRemover(){
 
     }
 
@@ -46,5 +39,25 @@ public class Solver {
         return wordList;
     }
 
+    public static String guessChecker(){
+        //creates a String to store the users guess, a Scanner to get the input, and a boolean value as an exit condition
+        String guess;
+        boolean valid = false;
+        Scanner input = new Scanner(System.in);
+
+        //do while loop to make sure the guess is valid
+        do {
+            System.out.print("Enter your guess: ");
+            guess = input.next();
+
+            if(guess.length() != 5 || !guess.matches("[a-zA-Z]+")){
+                System.out.println("Invalid entry");
+            }else {
+                valid = true;
+            }
+        }while (!valid);
+
+        return guess;
+    }
 }
 
