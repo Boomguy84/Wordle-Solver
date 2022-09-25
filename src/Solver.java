@@ -7,11 +7,10 @@ import java.util.Scanner;
 public class Solver {
     public static void main(String[] args) throws IOException {
         //variable declarations
-        String positionValue = "null";
-        boolean valid;
+        boolean valid = false;
 
         //creates an ArrayList for the answers and a Scanner for user input
-        ArrayList wordList = new ArrayList();
+        ArrayList<String> wordList = new ArrayList<>();
         Scanner input = new Scanner(System.in);
 
         //populates the ArrayList with all the words in the wordle database
@@ -24,18 +23,19 @@ public class Solver {
 
             //asks the user for the data associated with each letter
             for (int i = 0; i < 5; i++) {
-                valid = false;
 
                 //loops while the user gives invalid data
-                while (!valid) {
-                    System.out.printf("Was letter number %d black, yellow, or green: ", i + 1);
+                String positionValue;
+                do {
+                    valid = false;
+                    System.out.printf("Was letter number %d grey, yellow, or green: ", i + 1);
                     positionValue = input.next();
-                    if (positionValue.equalsIgnoreCase("black") || positionValue.equalsIgnoreCase("yellow") || positionValue.equalsIgnoreCase("green")) {
+                    if (positionValue.equalsIgnoreCase("grey") || positionValue.equalsIgnoreCase("yellow") || positionValue.equalsIgnoreCase("green")) {
                         valid = true;
                     } else {
                         System.out.println("Invalid input");
                     }
-                }
+                } while (!valid);
 
                 //if statements which call the wordRemover method to remove incorrect answers based on user input
                 if (positionValue.equalsIgnoreCase("green")) {
@@ -43,7 +43,7 @@ public class Solver {
                 } else if (positionValue.equalsIgnoreCase("yellow")) {
                     wordRemover(wordList, guess.toLowerCase().charAt(i), i, "yellow");
                 } else {
-                    wordRemover(wordList, guess.toLowerCase().charAt(i), i, "black");
+                    wordRemover(wordList, guess.toLowerCase().charAt(i), i, "grey");
                 }
             }
 
@@ -67,7 +67,7 @@ public class Solver {
     }
 
     //populates an ArrayList of all the possible answers
-    public static void populateList(ArrayList wordList) throws IOException {
+    public static void populateList(ArrayList<String> wordList) throws IOException {
         //opens the file and declares a scanner to iterate through the file
         File file = new File("wordle-nyt-answers-alphabetical.txt");
         Scanner inputFile = new Scanner(file);
@@ -105,27 +105,27 @@ public class Solver {
     }
 
     //method that removes any word that is the word of the day
-    public static void wordRemover(ArrayList wordList, char character, int charPosition, String colour) {
+    public static void wordRemover(ArrayList<String> wordList, char character, int charPosition, String colour) {
         //creates a new iterator object to iterate through wordList
-        Iterator iterator = wordList.iterator();
+        Iterator<String> iterator = wordList.iterator();
 
         //if statements that remove incorrect words based off uer input
         if (charPosition >= 0 && colour.equalsIgnoreCase("green")) {
             while (iterator.hasNext()) {
-                if (iterator.next().toString().charAt(charPosition) != character) {
+                if (iterator.next().charAt(charPosition) != character) {
                     iterator.remove();
                 }
             }
         } else if (colour.equalsIgnoreCase("yellow")) {
             while (iterator.hasNext()) {
-                String currentWord = iterator.next().toString();
+                String currentWord = iterator.next();
                 if (!currentWord.contains(character + "") || currentWord.charAt(charPosition) == character) {
                     iterator.remove();
                 }
             }
         } else {
             while (iterator.hasNext()) {
-                if (iterator.next().toString().charAt(charPosition) == character) {
+                if (iterator.next().charAt(charPosition) == character) {
                     iterator.remove();
                 }
             }
